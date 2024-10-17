@@ -160,6 +160,7 @@ size_t TBoard::TBoardHasher::operator()(const TBoard& board) const
             hash += counter * factorial;
             factorial *= current;
             ++current;
+            used[board.Board_[i][j]] = false;
         }
     }
 
