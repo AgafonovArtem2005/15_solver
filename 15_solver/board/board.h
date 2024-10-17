@@ -20,6 +20,19 @@ enum EDirections : char {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+static EDirections AllDirections[] {
+    EDirections::Right,
+    EDirections::Up,
+    EDirections::Left,
+    EDirections::Down
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+NBoard::EDirections InvertDirection(NBoard::EDirections direction);
+
+////////////////////////////////////////////////////////////////////////////////
+
 class TBoard
 {
 public:
@@ -34,6 +47,7 @@ public:
     const std::array<std::array<int, BoardSize>, BoardSize>& GetBoard() const;
 
     bool operator==(const TBoard& other) const;
+    bool operator!=(const TBoard& other) const;
 
     struct TBoardHasher
     {
