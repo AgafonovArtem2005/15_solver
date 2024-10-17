@@ -1,10 +1,27 @@
 #include "board.h"
 
 #include <cassert>
-#include <ostream>
-#include <stdexcept>
 
 namespace NBoard {
+
+////////////////////////////////////////////////////////////////////////////////
+
+NBoard::EDirections InvertDirection(NBoard::EDirections direction)
+{
+    switch (direction) {
+        case NBoard::EDirections::Right:
+            return NBoard::EDirections::Left;
+        
+        case NBoard::EDirections::Up:
+            return NBoard::EDirections::Down;
+
+        case NBoard::EDirections::Left:
+            return NBoard::EDirections::Right;
+
+        case NBoard::EDirections::Down:
+            return NBoard::EDirections::Up;
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -105,6 +122,11 @@ bool TBoard::operator==(const TBoard& other) const
     return true;
 }
 
+bool TBoard::operator!=(const TBoard& other) const
+{
+    return !(*this == other);
+}
+
 void TBoard::Validate() const
 {
     std::array<bool, BoardSize * BoardSize> usedTiles;
@@ -131,7 +153,7 @@ void TBoard::FindEmpty()
             if (Board_[i][j] == 0) {
                 Empty_ = {
                     .i = i,
-                    .j = i
+                    .j = j
                 };
                 return;
             }
@@ -148,6 +170,7 @@ size_t TBoard::TBoardHasher::operator()(const TBoard& board) const
     used.fill(true);
     size_t factorial = 1;
     size_t current = 1;
+
     for (int i = BoardSize - 1; i >= 0; i--) {
         for (int j = BoardSize - 1; j >= 0; j--) {
             size_t counter = 0;
